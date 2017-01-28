@@ -580,6 +580,7 @@ def get_train_eval_criterion(trainer):
     return copy.copy(trainer.previous_minibatch_evaluation_average)
 
 
+# Obsolete: All usages should be replaced with the variable_value_to_seq procedure below
 def value_to_seq(value):
     '''
     Convert a Value to a sequence of NumPy arrays that have their masked
@@ -600,6 +601,26 @@ def value_to_seq(value):
                    for idx, seq in enumerate(np_data)]
 
     return np_data
+
+
+def variable_value_to_seq(value, variable):
+    '''
+    Convert a Value to a sequence of NumPy arrays that have their masked
+    entries removed.
+
+    Args:
+        value (:class:`Value`): Value as it is returned by Swig
+
+    Returns:
+        a list of NumPy arrays
+    '''
+
+    mask = value.mask()
+    if mask:
+        value_sequences = value.unpack_variable_value(variable)
+        return [np.asarray(seq) for seq in value_sequences]
+    else:
+        return np.asarray(value)
 
 
 def eval(op, arguments=None, precision=None, device=None, backward_pass=False, expected_backward=None):

@@ -493,6 +493,8 @@ namespace CNTK
 
     std::string ToString(const std::wstring& wstring);
     std::wstring ToWString(const std::string& string);
+
+
     std::pair<size_t, size_t> GetNumTimeStepsAndSequences(const NDShape& maskShape, size_t numDynamicAxes);
 
     // Helper class to manage a collection of learners.
@@ -540,7 +542,6 @@ namespace CNTK
     class Utils
     {
     public:
-        template <typename ElementType>
         static void VerifyVariableValueCompatibility(const Variable& var, const ValuePtr& value);
 
         template <typename ElementType>
